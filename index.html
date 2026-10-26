@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0F">
+  <meta name="color-scheme" content="dark">
+  <title>WIJI · Holographic AI Co-Pilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="state-idle">
+
+  <div class="wi-plume"></div>
+  <div class="wi-grid"></div>
+
+  <!-- BOOT INTRO -->
+  <div class="wi-boot" id="bootScreen">
+    <div class="wi-boot-grid"></div>
+    <div class="wi-hud-scan"></div>
+    <div class="wi-boot-inner">
+      <div class="wi-boot-core">
+        <div class="wi-ring wi-ring-1"></div>
+        <div class="wi-ring wi-ring-2"></div>
+        <div class="wi-ring wi-ring-3"></div>
+        <div class="wi-glow"></div>
+        <div class="wi-logo">WIJI</div>
+      </div>
+      <div class="wi-boot-tag">Holographic Co-Pilot · Attrage 2023</div>
+      <div class="wi-boot-status" id="bootStatus">Initialising…</div>
+      <div class="wi-boot-list" id="bootList"></div>
+      <div class="wi-boot-bar"><div class="wi-boot-bar-fill" id="bootBarFill"></div></div>
+      <div class="wi-boot-skip">Tap to skip</div>
+    </div>
+  </div>
+
+  <div class="wi-deck">
+    <header class="wi-strip wi-rise">
+      <div class="wi-brand">
+        <div class="wi-brand-mark"></div>
+        <div class="wi-brand-text">
+          <span class="wi-brand-name">WIJI</span>
+          <span class="wi-brand-sub">AI Co-Pilot</span>
+        </div>
+      </div>
+      <div class="wi-strip-spacer"></div>
+      <div class="wi-pill" id="statusPill"><i></i><span>Ready</span></div>
+      <div class="wi-pill" id="gpsPill"><i></i><span>GPS</span></div>
+      <div class="wi-tm">
+        <b id="clockValue">—</b>
+        <span class="wi-cap" id="dateValue">—</span>
+      </div>
+      <button class="wi-cbtn" id="openChatBtn" aria-label="Open chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+    </header>
+
+    <main class="wi-main" id="main">
+      <!-- HOME -->
+      <section class="wi-screen active" id="screen-home">
+        <div class="wi-home-grid">
+          <div class="wi-hero wi-rise-lg">
+            <div class="wi-stage">
+              <div class="wi-orb-glow"></div>
+              <div class="wi-pulse" style="width: 74%; height: 74%;"></div>
+              <div class="wi-pulse" style="width: 74%; height: 74%; animation-delay: 1.3s;"></div>
+              <div class="wi-ring wi-ring-1"></div>
+              <div class="wi-ring wi-ring-2"></div>
+              <div class="wi-ring wi-ring-3"></div>
+              <div class="wi-ticks"></div>
+              <div class="wi-scan"></div>
+              <div class="wi-beam"></div>
+              <div class="wi-beam" style="transform: rotate(90deg); animation-duration: 15s;"></div>
+              <div class="wi-particle" style="top: 16%; left: 64%; animation-delay: 0s; animation-duration: 6.4s;"></div>
+              <div class="wi-particle" style="top: 27%; left: 80%; animation-delay: 1.1s; animation-duration: 7.2s;"></div>
+              <div class="wi-particle" style="top: 41%; left: 88%; animation-delay: 2.4s; animation-duration: 6.8s;"></div>
+              <div class="wi-particle" style="top: 56%; left: 84%; animation-delay: 0.6s; animation-duration: 7.6s;"></div>
+              <div class="wi-particle" style="top: 68%; left: 72%; animation-delay: 3.1s; animation-duration: 6.2s;"></div>
+              <div class="wi-particle" style="top: 81%; left: 58%; animation-delay: 1.8s; animation-duration: 7.9s;"></div>
+              <div class="wi-speed-ring"></div>
+              <div class="wi-orb">
+                <span class="wi-cap wi-cap-cyan">Speed</span>
+                <span class="wi-orb-num" id="speedValue">--</span>
+                <span class="wi-cap wi-cap-dim">km / h</span>
+                <hr class="wi-orb-rule">
+                <span class="wi-orb-hd" id="headingValue">--</span>
+                <div class="wi-orb-st"><span class="wi-cap" id="speedSource">GPS ka intezaar</span></div>
+              </div>
+              <button class="wi-orb-mic" id="orbMic" aria-label="Tap to speak">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" x2="12" y1="19" y2="22"/>
+                </svg>
+              </button>
+            </div>
+            <div class="wi-tele wi-rise" style="animation-delay: 0.2s;">
+              <div class="wi-ro">
+                <span class="wi-cap">Heading</span>
+                <b id="headingDir">—</b>
+              </div>
+              <div class="wi-ro">
+                <span class="wi-cap">Trip</span>
+                <b id="tripValue">—</b>
+              </div>
+              <div class="wi-ro">
+                <span class="wi-cap">Accuracy</span>
+                <b id="accValue">—</b>
+              </div>
+            </div>
+            <div class="wi-tele wi-rise" style="animation-delay: 0.3s; margin-top: 8px;">
+              <div class="wi-ro">
+                <span class="wi-cap">Fuel Est.</span>
+                <b id="fuelValue">—</b>
+              </div>
+              <div class="wi-ro">
+                <span class="wi-cap">Score</span>
+                <b id="scoreValue">—</b>
+              </div>
+              <div class="wi-ro">
+                <span class="wi-cap">Temp</span>
+                <b id="tempValue">—</b>
+              </div>
+            </div>
+          </div>
+
+          <div class="wi-chip-grid wi-rise-lg" style="animation-delay: 0.4s;">
+            <button class="wi-chip" id="widgetNav">
+              <span class="wi-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Navigation</span>
+              <b>Open Maps</b>
+              <small>Petrol · Food · Home</small>
+            </button>
+            <button class="wi-chip" id="widgetWeather">
+              <span class="wi-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>Weather</span>
+              <b id="weatherWidget">Tap to fetch</b>
+              <small>Live forecast</small>
+            </button>
+            <button class="wi-chip" id="widgetMedia">
+              <span class="wi-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Media</span>
+              <b>Not available</b>
+              <small>Native app needed</small>
+            </button>
+            <button class="wi-chip" id="widgetChat">
+              <span class="wi-cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Recent Chat</span>
+              <b id="chatWidget">No messages yet</b>
+              <small>Tap to open</small>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VOICE -->
+      <section class="wi-screen" id="screen-voice">
+        <div class="wi-voice-wrap">
+          <div class="wi-conv" id="conversation">
+            <div class="wi-conv-empty">Tap the mic or type to begin.</div>
+          </div>
+          <div class="wi-mic-stage">
+            <div class="wi-orb-glow"></div>
+            <div class="wi-ring wi-ring-1"></div>
+            <div class="wi-ring wi-ring-2"></div>
+            <div class="wi-ring wi-ring-3"></div>
+            <div class="wi-scan"></div>
+            <button class="wi-mic-large" id="voiceMic" aria-label="Tap to speak">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" x2="12" y1="19" y2="22"/>
+              </svg>
+            </button>
+          </div>
+          <div class="wi-input-row">
+            <input type="text" id="textInput" placeholder="Type a message…" autocomplete="off">
+            <button class="wi-send-btn" id="sendBtn" aria-label="Send">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- NAV -->
+      <section class="wi-screen" id="screen-nav">
+        <div class="wi-page-title">Navigation</div>
+        <div class="wi-nav-search">
+          <input type="text" id="navDest" placeholder="Enter destination…" autocomplete="off">
+        </div>
+        <button class="wi-nav-go" id="navOpen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+          Open in Google Maps
+        </button>
+        <div class="wi-section-title">Quick Destinations</div>
+        <div class="wi-dest-grid">
+          <button class="wi-dest-btn" data-dest="nearest petrol station">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v14"/><line x1="3" y1="14" x2="13" y2="14"/><path d="M13 12h2a2 2 0 0 1 2 2v4a2 2 0 0 0 4 0V8l-3-3"/></svg>
+            Petrol Station
+          </button>
+          <button class="wi-dest-btn" data-dest="nearest restaurant">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
+            Restaurant
+          </button>
+          <button class="wi-dest-btn" data-dest="nearest hospital">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg>
+            Hospital
+          </button>
+          <button class="wi-dest-btn" data-dest="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Home
+          </button>
+        </div>
+        <div class="wi-section-title">Current Location</div>
+        <div class="wi-card">
+          <div class="wi-loc-row"><span class="wi-loc-lbl">Status</span><span class="wi-loc-val" id="navGpsStatus">Waiting</span></div>
+          <div class="wi-loc-row"><span class="wi-loc-lbl">Latitude</span><span class="wi-loc-val" id="navLat">—</span></div>
+          <div class="wi-loc-row"><span class="wi-loc-lbl">Longitude</span><span class="wi-loc-val" id="navLon">—</span></div>
+          <div class="wi-loc-row"><span class="wi-loc-lbl">Accuracy</span><span class="wi-loc-val" id="navAcc">—</span></div>
+          <div class="wi-btn-row"><button class="wi-btn" id="navRefreshGps">⟳ Refresh GPS</button></div>
+        </div>
+      </section>
+
+      <!-- MEDIA -->
+      <section class="wi-screen" id="screen-media">
+        <div class="wi-page-title">Media</div>
+        <div class="wi-empty-state">
+          <div class="wi-empty-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div class="wi-empty-title">Media control unavailable</div>
+          <div class="wi-empty-text">Media integration requires native Android app with audio focus permissions.</div>
+        </div>
+      </section>
+
+      <!-- TOOLS -->
+      <section class="wi-screen" id="screen-tools">
+        <div class="wi-page-title">Tools</div>
+        <div class="wi-tools-grid">
+          <button class="wi-tool-card" id="toolWeather"><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div><div class="wi-tool-title">Weather</div><div class="wi-tool-desc">Live forecast</div></button>
+          <button class="wi-tool-card" id="toolTrip"><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg></div><div class="wi-tool-title">Trip Data</div><div class="wi-tool-desc">Start, end, reset</div></button>
+          <button class="wi-tool-card" id="toolMaint"><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div class="wi-tool-title">Maintenance</div><div class="wi-tool-desc">Service reminders</div></button>
+          <button class="wi-tool-card" id="toolGps"><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg></div><div class="wi-tool-title">GPS → AI</div><div class="wi-tool-desc" id="gpsToggleDesc">Off · Tap to enable</div></button>
+          <button class="wi-tool-card" id="toolFuel"><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v14"/><line x1="3" y1="14" x2="13" y2="14"/><path d="M13 12h2a2 2 0 0 1 2 2v4a2 2 0 0 0 4 0V8l-3-3"/></svg></div><div class="wi-tool-title">Fuel</div><div class="wi-tool-desc" id="fuelToggleDesc">Estimate · Tap to set</div></button>
+          <button class="wi-tool-card" id="toolSos"><div class="wi-tool-icon" style="color: var(--red); background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="wi-tool-title">SOS</div><div class="wi-tool-desc">Emergency call</div></button>
+          <button class="wi-tool-card" id="toolObd"><span class="wi-badge wi-badge-hw">Hardware</span><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="12" y1="13" x2="12" y2="15"/><line x1="16" y1="13" x2="16" y2="15"/></svg></div><div class="wi-tool-title">OBD-II</div><div class="wi-tool-desc">Engine data (adapter)</div></button>
+          <button class="wi-tool-card" id="toolSettings"><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><div class="wi-tool-title">Settings</div><div class="wi-tool-desc">Voice, rate, backend</div></button>
+          <button class="wi-tool-card" id="toolClear"><div class="wi-tool-icon" style="color: var(--red); background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div><div class="wi-tool-title">Clear Chat</div><div class="wi-tool-desc">Delete history</div></button>
+          <button class="wi-tool-card" id="toolAbout"><div class="wi-tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="wi-tool-title">About</div><div class="wi-tool-desc">Version, capabilities</div></button>
+        </div>
+      </section>
+
+      <!-- SUBSCREENS -->
+      <section class="wi-screen" id="screen-trip">
+        <button class="wi-back-btn" data-back="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
+        <div class="wi-page-title">Trip Data</div>
+        <div class="wi-card">
+          <div class="wi-row-item"><span class="wi-row-lbl">Status</span><span class="wi-row-val" id="tripStatus">Idle</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">Current Trip</span><span class="wi-row-val" id="tripCurrent">0 m</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">Duration</span><span class="wi-row-val" id="tripDurSub">00:00</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">Today Total</span><span class="wi-row-val" id="tripToday">0 m</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">Trip Cost</span><span class="wi-row-val" id="tripCost">SAR 0.00</span></div>
+        </div>
+        <div class="wi-btn-row">
+          <button class="wi-btn primary" id="tripStartBtn">▶ Start</button>
+          <button class="wi-btn" id="tripEndBtn" disabled>⏸ End</button>
+          <button class="wi-btn danger" id="tripResetBtn">↺ Reset</button>
+        </div>
+      </section>
+
+      <section class="wi-screen" id="screen-maint">
+        <button class="wi-back-btn" data-back="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
+        <div class="wi-page-title">Maintenance</div>
+        <div class="wi-card">
+          <div class="wi-form-row"><label>Current Odometer (km)</label><input type="number" id="maintOdo" placeholder="e.g. 45000" min="0" step="1"><p class="wi-hint">Manually entered. Used for mileage reminders.</p></div>
+        </div>
+        <div class="wi-section-title">Add Reminder</div>
+        <div class="wi-card">
+          <div class="wi-form-row"><label>Name</label><input type="text" id="maintName" placeholder="e.g. Oil change" maxlength="60"></div>
+          <div class="wi-form-row"><label>Type</label><select id="maintType"><option value="date">By date</option><option value="mileage">By mileage</option></select></div>
+          <div class="wi-form-row" id="maintDateRow"><label>Due Date</label><input type="date" id="maintDate"></div>
+          <div class="wi-form-row" id="maintKmRow" style="display:none"><label>Due Odometer (km)</label><input type="number" id="maintKm" placeholder="e.g. 50000" min="0" step="1"></div>
+          <div class="wi-form-row"><label>Notes (optional)</label><input type="text" id="maintNotes" placeholder="Any notes" maxlength="120"></div>
+          <button class="wi-btn primary" id="maintAddBtn">Add Reminder</button>
+        </div>
+        <div class="wi-section-title">Reminders</div>
+        <div id="maintList"></div>
+      </section>
+
+      <section class="wi-screen" id="screen-settings">
+        <button class="wi-back-btn" data-back="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
+        <div class="wi-page-title">Settings</div>
+        <div class="wi-card">
+          <div class="wi-form-row">
+            <label>Fuel Consumption (km/L)</label>
+            <input type="number" id="fuelEfficiency" placeholder="12" min="1" max="50" step="0.5" value="12">
+            <p class="wi-hint">Mitsubishi Attrage average: ~12 km/L. Used for fuel estimate.</p>
+          </div>
+          <div class="wi-form-row">
+            <label>Fuel Price (SAR/L)</label>
+            <input type="number" id="fuelPrice" placeholder="2.18" min="0" max="20" step="0.01" value="2.18">
+            <p class="wi-hint">Saudi Arabia 91 petrol: ~2.18 SAR/L. Used for trip cost.</p>
+          </div>
+          <div class="wi-form-row">
+            <label>Speech Rate <span id="rateValue">1.0×</span></label>
+            <input type="range" id="rateRange" min="0.7" max="1.6" step="0.05" value="1.0">
+            <p class="wi-hint">Lower = slower speaking.</p>
+          </div>
+        </div>
+        <div class="wi-card">
+          <div class="wi-row-item"><span class="wi-row-lbl">App version</span><span class="wi-row-val">Stage 8.0</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">Vehicle</span><span class="wi-row-val">Mitsubishi Attrage</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">AI Backend</span><span class="wi-row-val" id="aiBackendStatus">Checking…</span></div>
+        </div>
+      </section>
+
+      <section class="wi-screen" id="screen-obd">
+        <button class="wi-back-btn" data-back="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
+        <div class="wi-page-title">OBD-II</div>
+        <div class="wi-card">
+          <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 10px;">⚠️ Hardware required</h3>
+          <p style="font-size: 13px; color: var(--text-2); line-height: 1.6; margin-bottom: 10px;">OBD-II engine data requires a Bluetooth ELM327 adapter (~₹1000). This app is ready — connect an adapter to see live RPM, coolant temp, fuel level, and error codes.</p>
+        </div>
+        <div class="wi-card">
+          <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 10px;">What you need</h3>
+          <p style="font-size: 13px; color: var(--text-2); line-height: 1.6;">A Bluetooth OBD-II adapter (ELM327) plugged into your car's OBD port (under the steering wheel).</p>
+        </div>
+      </section>
+
+      <section class="wi-screen" id="screen-about">
+        <button class="wi-back-btn" data-back="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>Back</button>
+        <div class="wi-page-title">About WIJI</div>
+        <div class="wi-card">
+          <div class="wi-row-item"><span class="wi-row-lbl">Version</span><span class="wi-row-val">Stage 8.0</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">Creator</span><span class="wi-row-val">Umar Faruq</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">Vehicle</span><span class="wi-row-val">Mitsubishi Attrage</span></div>
+          <div class="wi-row-item"><span class="wi-row-lbl">AI Provider</span><span class="wi-row-val">Groq + ElevenLabs</span></div>
+        </div>
+        <div class="wi-card">
+          <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 10px;">Working now</h3>
+          <p style="font-size: 12px; color: var(--text-2); line-height: 1.7;">✓ AI voice chat (Groq + web search)<br>✓ Premium voice (ElevenLabs)<br>✓ GPS speed, heading, accuracy<br>✓ Trip tracking + cost<br>✓ Fuel estimate<br>✓ Driving score<br>✓ Weather<br>✓ Navigation shortcuts<br>✓ Maintenance reminders<br>✓ SOS emergency<br>✓ Fatigue detection<br>✓ Crash detection<br><br>Coming soon (hardware):<br>○ OBD-II real data<br>○ "Hey WIJI" wake word (native)</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="wi-dock">
+      <a class="wi-docklink wi-docklink-on" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Home</span></a>
+      <a class="wi-docklink" data-tab="voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg><span>Voice</span></a>
+      <a class="wi-docklink" data-tab="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg><span>Nav</span></a>
+      <a class="wi-docklink" data-tab="media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>Media</span></a>
+      <a class="wi-docklink" data-tab="tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg><span>Tools</span></a>
+    </nav>
+  </div>
+
+  <script src="./hardware.js"></script>
+  <script src="./safety.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
