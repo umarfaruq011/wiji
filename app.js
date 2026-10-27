@@ -103,6 +103,150 @@ function sfxBoot() {
     o.start(t); o.stop(t + 1.05);
   });
 }
+/* ============================================================
+   TRADING CHART (TradingView Lightweight Charts)
+   ============================================================ */
+let tradingChart = null, candleSeries = null, currentSymbol = 'BTCUSDT';
+
+// Load library dynamically
+function loadChartLib() {
+  return new Promise((resolve) => {
+    if (window.LightweightCharts) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js';
+    s.onload = resolve;
+    s.onerror = resolve;
+    document.head.appendChild(s);
+  });
+}
+
+async function initTradingChart() {
+  await loadChartLib();
+  if (!window.LightweightCharts) return;
+  
+  const { createChart, CandlestickSeries } = window.LightweightCharts;
+  const container = document.getElementById('tradingChart');
+  if (!container) return;
+  
+  tradingChart = createChart(container, {
+    width: container.clientWidth,
+    height: 180,
+    layout: { background: { color: 'transparent' }, textColor: '#9d92d6' },
+    grid: { vertLines: { color: 'rgba(124,92,255,0.1)' }, horzLines: { color: 'rgba(124,92,255,0.1)' } },
+    rightPriceScale: { borderColor: 'rgba(124,92,255,0.3)' },
+    timeScale: { borderColor: 'rgba(124,92,255,0.3)', timeVisible: true },
+    crosshair: { mode: 1 }
+  });
+  
+  candleSeries = tradingChart.addSeries(CandlestickSeries, {
+    upColor: '#00e0ff', downColor: '#ff3d8a',
+    borderUpColor: '#00e0ff', borderDownColor: '#ff3d8a',
+    wickUpColor: '#00e0ff', wickDownColor: '#ff3d8a'
+  });
+  
+  // Generate demo data (real API baad mein)
+  generateDemoCandles();
+  
+  // Symbol switch
+  document.querySelectorAll('[data-symbol]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentSymbol = btn.dataset.symbol;
+      generateDemoCandles();
+    });
+  });
+}
+
+function generateDemoCandles() {
+  const now = Math.floor(Date.now() / 1000);
+  const basePrice = currentSymbol === 'BTCUSDT' ? 67000 : currentSymbol === 'ETHUSDT' ? 3500 : 150;
+  const candles = [];
+  let price = basePrice;
+  
+  for (let i = 100; i >= 0; i--) {
+    const time = now - i * 60; // 1-min candles
+    const open = price;
+    const change = (Math.random() - 0.48) * basePrice * 0.01;
+    const close = open + change;
+    const high = Math.max(open, close) + Math.random() * basePrice * 0.002;
+    const low = Math.min(open, close) - Math.random() * basePrice * 0.002;
+    candles.push({ time, open, high, low, close });
+    price = close;
+  }
+  
+  if (candleSeries) {
+    candleSeries.setData(candles);
+    tradingChart.timeScale().fitContent();
+    document.getElementById('chartPrice').textContent = `$${Math.round(price).toLocaleString()}`;
+  }
+  
+  // Simulate real-time update every 2s
+  if (window._chartInterval) clearInterval(window._chartInterval);
+  window._chartInterval = setInterval(() => {
+    if (!candleSeries) return;
+    const last = candles[candles.length - 1];
+    const newClose = last.close + (Math.random() - 0.5) * basePrice * 0.002;
+    const newCandle = {
+      time: Math.floor(Date.now() / 1000),
+      open: last.close,
+      high: Math.max(last.close, newClose),
+      low: Math.min(last.close, newClose),
+      close: newClose
+    };
+    candleSeries.update(newCandle);
+    document.getElementById('chartPrice').textContent = `$${Math.round(newClose).toLocaleString()}`;
+  }, 2000);
+}
+
+/* ============================================================
+   SALAH TIMING (Aladhan API)
+   ============================================================ */
+async function initSalah() {
+  const lat = state.fix ? state.fix.lat : 24.7136;
+  const lng = state.fix ? state.fix.lng : 46.6753;
+  
+  try {
+    const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=4`;
+    const r = await fetch(url);
+    const data = await r.json();
+    const timings = data?.data?.timings;
+    if (!timings) throw new Error('no timings');
+    
+    const prayers = [
+      { name: 'Fajr', key: 'Fajr', icon: '🌅' },
+      { name: 'Dhuhr', key: 'Dhuhr', icon: '☀️' },
+      { name: 'Asr', key: 'Asr', icon: '🌤️' },
+      { name: 'Maghrib', key: 'Maghrib', icon: '🌇' },
+      { name: 'Isha', key: 'Isha', icon: '🌙' }
+    ];
+    
+    const list = document.getElementById('salahList');
+    list.innerHTML = prayers.map(p => {
+      const time = timings[p.key];
+      return `<div class="wi-sys-row" style="padding:8px 10px">
+        <em class="wi-cap" style="font-size:11px">${p.icon} ${p.name}</em>
+        <b class="num" style="font-size:13px">${time}</b>
+      </div>`;
+    }).join('');
+    
+    // Next prayer
+    const now = new Date();
+    const [h, m] = timings.Fajr.split(':').map(Number);
+    const fajrTime = new Date(); fajrTime.setHours(h, m, 0);
+    document.getElementById('nextPrayerLabel').textContent = 'Riyadh · Umm Al-Qura';
+    
+    // Date
+    const hijri = data?.data?.date?.hijri;
+    if (hijri) document.getElementById('salahDate').textContent = `${hijri.day} ${hijri.month.en} ${hijri.year} AH`;
+    
+  } catch (e) {
+    document.getElementById('salahList').innerHTML = '<p class="wi-tx" style="font-size:12px;color:#9d92d6">Salah timing unavailable</p>';
+  }
+}
+
+// init() mein add karo:
+// initTradingChart();
+// initSalah();
+// setTimeout(initSalah, 3000); // GPS fix ke baad
 
 /* ---------- State ---------- */
 const state = {
