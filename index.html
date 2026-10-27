@@ -320,17 +320,64 @@
             </div>
           </section>
 
-          <!-- APPS (Media) -->
-          <section class="wi-screen" id="screen-media" style="display:none">
-            <div class="wi-holo flex flex-col gap-3">
-              <div class="wi-holo-head"><span class="wi-cap wi-cap-cyan">Apps</span></div>
-              <div class="wi-tx">Media playback requires a native app with audio focus. Coming soon.</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-                <button type="button" class="wi-chip-sm" data-url="https://www.youtube.com">YouTube</button>
-                <button type="button" class="wi-chip-sm" data-url="https://open.spotify.com">Spotify</button>
-                <button type="button" class="wi-chip-sm" data-url="https://maps.google.com">Maps</button>
-                <button type="button" class="wi-chip-sm" data-url="https://www.google.com">Google</button>
+          <!-- FUTURISTIC APP LAUNCHER -->
+          <section class="wi-screen wi-apps-screen" id="screen-media" style="display:none">
+            <div class="wi-apps-shell">
+              <div class="wi-apps-heading">
+                <div>
+                  <div class="wi-cap wi-cap-cyan">WIJI APPLICATION MATRIX</div>
+                  <h2 class="wi-apps-title">Choose your interface</h2>
+                  <p class="wi-apps-subtitle">Vehicle tools · AI co-pilot · Connected apps</p>
+                </div>
+                <div class="wi-apps-orb" aria-hidden="true"><span></span><i></i></div>
               </div>
+              <div class="wi-app-grid">
+                <button type="button" class="wi-app-tile wi-app-featured" data-open-tab="home" aria-label="Open cockpit dashboard">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 13a9 9 0 1 1 18 0"/><path d="M12 13l4-5"/><circle cx="12" cy="13" r="1.5"/><path d="M5 17h14"/></svg></span>
+                  <span class="wi-app-label">Cockpit</span><span class="wi-app-meta">AI CORE · LIVE STATUS</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-open-tab="nav" aria-label="Open navigation">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m3 11 18-8-8 18-2-8-8-2Z"/><path d="m11 13 4-4"/></svg></span>
+                  <span class="wi-app-label">Navigation</span><span class="wi-app-meta">GPS · DESTINATIONS</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-open-tab="voice" aria-label="Open WIJI voice AI">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 11v1a7 7 0 0 0 14 0v-1M12 19v3m-4 0h8"/></svg></span>
+                  <span class="wi-app-label">WIJI Voice AI</span><span class="wi-app-meta">VOICE · ASSISTANT</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-open-tab="drive" aria-label="Open fuel and trip tools">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16M2 21h15"/><path d="M7 7h5v5H7zM15 8h2l3 3v7a2 2 0 0 1-4 0v-4"/></svg></span>
+                  <span class="wi-app-label">Fuel Tracker</span><span class="wi-app-meta">COST · CONSUMPTION</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-open-tab="nav" aria-label="Open GPS monitor">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3"/></svg></span>
+                  <span class="wi-app-label">GPS Monitor</span><span class="wi-app-meta">POSITION · ACCURACY</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-open-tab="home" aria-label="Open live system vitals on cockpit">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l3-8 4 16 3-8h4"/><circle cx="12" cy="12" r="10"/></svg></span>
+                  <span class="wi-app-label">System Vitals</span><span class="wi-app-meta">LIVE DEVICE STATUS</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-url="https://www.youtube.com" aria-label="Open YouTube">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z"/></svg></span>
+                  <span class="wi-app-label">YouTube</span><span class="wi-app-meta">VIDEO · WEB APP</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-url="https://open.spotify.com" aria-label="Open Spotify">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M6 9c4-1 8-.5 12 2M7 12c3-.8 6-.4 10 1.5M8 15c2-.5 4-.2 7 1"/></svg></span>
+                  <span class="wi-app-label">Spotify</span><span class="wi-app-meta">MUSIC · WEB APP</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-url="https://maps.google.com" aria-label="Open Google Maps">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/><path d="m9 3v15m6-12v15"/><circle cx="12" cy="10" r="2"/></svg></span>
+                  <span class="wi-app-label">Google Maps</span><span class="wi-app-meta">EXTERNAL APP</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-url="https://www.google.com" aria-label="Open Google">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 7v8m-4-4h8"/></svg></span>
+                  <span class="wi-app-label">Google</span><span class="wi-app-meta">SEARCH · WEB</span>
+                </button>
+                <button type="button" class="wi-app-tile" data-open-tab="tools" aria-label="Open settings">
+                  <span class="wi-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.4 2.4-1.7-.7a8 8 0 0 1-1.8 1l-.3 1.8h-2.8l-.3-1.8a8 8 0 0 1-1.8-1l-1.7.7-1.4-2.4 1.4-1.1a7 7 0 0 1 0-2l-1.4-1.1 1.4-2.4 1.7.7a8 8 0 0 1 1.8-1l.3-1.8h2.8l.3 1.8a8 8 0 0 1 1.8 1l1.7-.7 1.4 2.4-1.4 1.1a7 7 0 0 1 0 2Z"/></svg></span>
+                  <span class="wi-app-label">Settings</span><span class="wi-app-meta">PREFERENCES · SYSTEM</span>
+                </button>
+              </div>
+              <div class="wi-apps-foot"><span class="wi-status-dot"></span> WIJI SYSTEM READY <span class="wi-apps-foot-right">ATTRAGE 2023 / LAUNCHER MODE</span></div>
             </div>
           </section>
 
