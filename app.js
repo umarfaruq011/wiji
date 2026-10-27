@@ -899,8 +899,14 @@ function init() {
   document.querySelectorAll('[data-dest]').forEach(btn => btn.addEventListener('click', () => { window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(btn.dataset.dest)}`, '_blank'); }));
   $('navRefreshBtn').addEventListener('click', () => { if (gpsWatchId != null) navigator.geolocation.clearWatch(gpsWatchId); initGPS(); });
 
-  // Apps
-  document.querySelectorAll('[data-url]').forEach(btn => btn.addEventListener('click', () => window.open(btn.dataset.url, '_blank')));
+  // Apps: internal launcher tiles switch to dedicated WIJI screens.
+  document.querySelectorAll('[data-open-tab]').forEach(btn => btn.addEventListener('click', () => {
+    const tab = btn.dataset.openTab;
+    if (['home', 'drive', 'voice', 'nav', 'media', 'tools'].includes(tab)) showTab(tab);
+  }));
+
+  // External web apps open separately so WIJI stays available as the launcher.
+  document.querySelectorAll('[data-url]').forEach(btn => btn.addEventListener('click', () => window.open(btn.dataset.url, '_blank', 'noopener,noreferrer')));
 
   // Tools
   $('toggleVoice').checked = state.settings.voiceReplies !== false;
