@@ -1,16 +1,20 @@
 {
-  "name": "WIJI — Holographic AI Co-Pilot",
+  "name": "WIJI — Premium Tablet Cockpit",
   "short_name": "WIJI",
-  "description": "AI co-pilot for Mitsubishi Attrage 2023. Speed, trip, weather, voice assistant, and safety features.",
+  "description": "Premium landscape tablet AI co-pilot and app launcher for Mitsubishi Attrage 2023.",
   "start_url": "./",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#0A0A0F",
-  "theme_color": "#0A0A0F",
+  "orientation": "landscape",
+  "background_color": "#070a0f",
+  "theme_color": "#070a0f",
   "scope": "./",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["utilities", "navigation", "productivity"],
+  "categories": [
+    "utilities",
+    "navigation",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "./icon-192.png",
@@ -42,13 +46,23 @@
       "name": "Voice Assistant",
       "short_name": "Voice",
       "url": "./?tab=voice",
-      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Navigation",
       "short_name": "Nav",
       "url": "./?tab=nav",
-      "icons": [{ "src": "./icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
